@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Prime</title>
+    <style>
+        /* RESET CORRIGIDO */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: yellow;
+        }
+
+        .header-container {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: 0.5s;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+            transform: scale(0.9);
+            border-radius: 5px;
+        }
+
+        /* animation for text header h1 */
+        #animar span {
+            display: inline-block;
+            transition: 0.5s;
+        }
+
+        #animar span:hover {
+            transform: scale(1.4);
+            color: white;
+        }
+
+        .container {
+            padding: 20px;
+        }
+        
+        .section {
+            width: 850px;
+            margin-bottom: 40px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: 0.5s ease-in;
+            margin-left: 500px;
+        }
+
+        .section:hover{
+            transform: scale(1.03);
+            opacity: 2.0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .form-group button {
+            padding: 10px 15px;
+            background-color: #333;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .deliveries-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .delivery-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            border: black 3px solid;
+        }
+
+        .produtos {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .ver-produto {
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            border: none;
+            width: 150px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+
+        footer nav a {
+            color: white;
+            padding: 0 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-container">
+        <header>
+            <h1 class="titulo" id="animar">LAP - informatica</h1>
+        </header>
+    </div>
+
+    <nav>
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#equipe">Equipe</a>
+        <a href="#contato">Contato</a>
+        <a href="#produtos">Produtos</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="section" id="sobre">
+            <h2>Sobre a Empresa</h2>
+            <p>
+                A LAP Informática é uma empresa com mais de 28 anos de experiência em automação comercial e financeira,
+                especializada em sistemas de ERP.
+            </p>
+        </div>
+
+        <div class="section" id="servicos">
+            <h2>Serviços</h2>
+            <ul>
+                <li>Desenvolvimento de sistemas ERP</li>
+                <li>Lapwin10</li>
+                <li>Suporte Técnico</li>
+                <li>Treinamento</li>
+                <li>Consultoria em TI</li>
+                <li>Lap Gerencial Web</li>
+            </ul>
+        </div>
+
+        <div class="section" id="equipe">
+            <h2>Equipe</h2>
+            <p>Profissionais altamente qualificados e dedicados.</p>
+        </div>
+
+        <div class="section" id="contato">
+            <h2>Contato</h2>
+
+            <form id="contact-form" onsubmit="sendEmail(); return false;">
+                <div class="form-group">
+                    <label for="contact-name">Nome:</label>
+                    <input type="text" id="contact-name" name="contact-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-email">E-mail:</label>
+                    <input type="email" id="contact-email" name="contact-email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-message">Mensagem:</label>
+                    <textarea id="contact-message" name="contact-message" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit">Enviar Mensagem</button>
+                </div>
+            </form>
+
+            <p>Telefone: (34) 9245-8644</p>
+            <p>Endereço: Rua João Tude de Melo, 77, Recife, PE</p>
+        </div>
+
+        <section class="deliveries-list" id="produtos">
+            <h1>Produtos</h1>
+
+            <div class="delivery-card">
+                <img class="produtos" src="teclado project.jpg" alt="">
+                <div>
+                    <h2>Teclado-sem Fio Dell — KM3322W</h2>
+                    <p><strong>Peso:</strong> 450g <br>
+                        <strong>Valor:</strong> R$ 120,00
+                    </p>
+                </div>
+                <button class="ver-produto">Fazer pedido</button>
+            </div>
+
+            <div class="delivery-card">
+                <img class="produtos" src="monitor project.jpg" alt="">
+                <div>
+                    <h2>Monitor-Dell de 21.5" SE2222H</h2>
+                    <p><strong>Peso:</strong> 2,067kg <br>
+                        <strong>Valor:</strong> R$ 450,00
+                    </p>
+                </div>
+                <button class="ver-produto">Fazer pedido</button>
+            </div>
+
+            <div class="delivery-card">
+                <img class="produtos" src="mouse project.jpg" alt="">
+                <div>
+                    <h2>Mouse-Gamer Sem Fio Alienware AW720M</h2>
+                    <p><strong>Peso:</strong> 89g <br>
+                        <strong>Valor:</strong> R$ 250,00
+                    </p>
+                </div>
+                <button class="ver-produto">Fazer pedido</button>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <nav>
+            <a href="#sobre">Sobre</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#equipe">Equipe</a>
+            <a href="#contato">Contato</a>
+            <p>&copy; 2024 Direct Prime. Todos os direitos reservados.</p>
+        </nav>
+    </footer>
+
+    <script>
+        // animação de letras
+        window.onload = function () {
+            const titulo = document.getElementById("animar");
+
+            const textoOriginal = titulo.innerText;
+            titulo.innerHTML = "";
+
+            textoOriginal.split("").forEach(letra => {
+                const span = document.createElement("span");
+                span.innerHTML = letra === " " ? "&nbsp;" : letra;
+                span.style.display = "inline-block";
+                span.style.transition = "0.5s";
+                titulo.appendChild(span);
+            });
+        };
+    </script>
+
+</body>
+
+</html>

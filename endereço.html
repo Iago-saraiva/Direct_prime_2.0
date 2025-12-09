@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: yellow;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150vh;
+            margin: 0;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+        }
+        form h2 {
+            margin-bottom   : 20px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: yellow;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    </style>
+
+<script>
+
+    const form = document.getElementById('formCadastro');
+
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        const name = document.getElementById('name').value;
+        const cep = document.getElementById('cep').value;
+        const estado = document.getElementById('estado').value;
+        const cidade = document.getElementById('cidade').value;
+        const bairro = document.getElementById('bairro').value;
+        const rua = document.getElementById('rua').value;
+        const numero = document.getElementById('numero').value;
+        const cpf = document.getElementById('cpf').value;
+        const telefone = document.getElementById('telefone').value;
+        const info = document.getElementById('info').value;
+        
+        localStorage.setItem('name', name);
+        localStorage.setItem('cep', cep);
+        localStorage.setItem('estado', estado);
+        localStorage.setItem('cidade', cidade);
+        localStorage.setItem('bairro', bairro);
+        localStorage.setItem('rua', rua);
+        localStorage.setItem('numero', numero);
+        localStorage.setItem('cpf', cpf);
+        localStorage.setItem('telefone', telefone);
+        localStorage.setItem('info', info);
+
+        window.location.href = ('pagina01.html');
+    });
+</script>
+</head>
+<div class="corpo">
+    <h1>Novo endereço</h1>
+    <form action="testecadastro.html" method="GET" >
+        <label for="name">Nome</label>
+        <input type="text" id="name" name="name" required> 
+
+        <label for="cep">CEP</label>
+        <input type="text" id="cep" name="cep" required>
+
+        <label for="estado">Estado</label>
+        <select name="estado" id="estado">
+            <option value="ac">Acre</option>
+            <option value="al">Alagoas</option>
+            <option value="ap">Amapá</option>
+            <option value="am">Amazonas</option>
+            <option value="ba">Bahia</option>
+            <option value="ce">Ceará</option>
+            <option value="df">Distrito Federal</option>
+            <option value="es">Espírito Santo</option>
+            <option value="go">Goiás</option>
+            <option value="ma">Maranhão</option>
+            <option value="mt">Mato Grosso</option>
+            <option value="ms">Mato Grosso do Sul</option>
+            <option value="mg">Minas Gerais</option>
+            <option value="pa">Pará</option>
+            <option value="pb">Paraíba</option>
+            <option value="pr">Paraná</option>
+            <option value="pe">Pernambuco</option>
+            <option value="pi">Piauí</option>
+            <option value="rj">Rio de Janeiro</option>
+            <option value="rn">Rio Grande do Norte</option>
+            <option value="rs">Rio Grande do Sul</option>
+            <option value="ro">Rondônia</option>
+            <option value="rr">Roraima</option>
+            <option value="sc">Santa Catarina</option>
+            <option value="sp">São Paulo</option>
+            <option value="se">Sergipe</option>
+            <option value="to">Tocantins</option>
+        </select>
+        </select>
+
+        <label for="cidade">Cidade</label>
+        <input type="text" id="cidade" name="cidade" required>
+
+        <label for="bairro">Bairro</label>
+        <input type="text" id="bairro" name="bairro" required>
+
+        <label for="rua">Rua/Avenida</label>
+        <input type="text" id="rua" name="rua" required>
+
+        <label for="numero">Número</label>
+        <input type="number" id="numero" name="numero" required>
+
+        <label for="cpf">CPF</label>
+        <input type="text" id="cpf" name="cpf" required>
+
+        <label for="telefone">Telefone de Contato</label>
+        <input type="tel" id="telefone" name="telefone" required>
+
+        <label for="info">Informações Adicionais e complemento (opcional)</label>
+        <input type="text" id="info" name="info">
+
+        <input type="submit" value="Cadastrar">
+    </form>
+</div>
+</body>
+</html>

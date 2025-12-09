@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Prime</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #444;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group input[type="radio"] {
+            margin-right: 10px;
+        }
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group .address, .form-group .pickup {
+            margin-left: 25px;
+            margin-bottom: 10px;
+        }
+        .price {
+            font-weight: bold;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #fdd835;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+        }
+        .summary {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        .summary div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        #map {
+            width: 100%;
+            height: 400px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Direct Prime</h1>
+    </div>
+    <div class="container">
+        <h2>Escolha a forma de entrega</h2>
+        <div id="map"></div>
+        <div class="form-group">
+            <input type="radio" id="endereco" name="entrega" checked>
+            <label for="endereco">Enviar no meu endereço</label>
+            <div class="output">
+                <h3>Informações Cadastradas:</h3>
+                <p><strong>Nome:</strong> <span id="outName">Não informado</span></p>
+                <p><strong>CEP:</strong> <span id="outCep">Não informado</span></p>
+                <p><strong>Estado:</strong> <span id="outEstado">Não informado</span></p>
+                <p><strong>Cidade:</strong> <span id="outCidade">Não informado</span></p>
+                <p><strong>Bairro:</strong> <span id="outBairro">Não informado</span></p>
+                <p><strong>Rua/Avenida:</strong> <span id="outRua">Não informado</span></p>
+                <p><strong>Número:</strong> <span id="outNumero">Não informado</span></p>
+                <p><strong>CPF:</strong> <span id="outCpf">Não informado</span></p>
+                <p><strong>Telefone:</strong> <span id="outTelefone">Não informado</span></p>
+                <p><strong>Informações Adicionais:</strong> <span id="outInfo">Não informado</span></p>
+            </div>
+            <div class="address">
+                <button>
+                    <a href="endereço.html">Novo endereço</a>
+                </button>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="radio" id="agencia" name="entrega">
+            <label for="agencia">Retirar na loja</label>
+            <div class="pickup">
+                <span class="price">R$ <span id="deliveryFee">0.00</span></span>
+            </div>
+        </div>
+
+        <h2>Escolha a forma de pagamento</h2>
+        <div class="form-group">
+            <input type="radio" id="pix" name="pagamento" checked>
+            <label for="pix">Pix</label>
+        </div>
+        <div class="form-group">
+            <input type="radio" id="credito" name="pagamento">
+            <label for="credito">Cartão de Crédito</label>
+        </div>
+        <div class="form-group">
+            <input type="radio" id="debito" name="pagamento">
+            <label for="debito">Cartão de Débito</label>
+        </div>
+
+        <form action="empresa.html" method="get">
+            <button type="submit" class="btn">Pagar Agora</button>
+        </form>
+
+        <div class="summary">
+            <div><span>Produto</span><span>R$ 69</span></div>
+            <div><span>Você pagará</span><span>R$ <span id="totalCost">69.00</span></span></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Inicializa o mapa
+        var map = L.map('map').setView([-23.55052, -46.633308], 13); // Coordenadas de São Paulo, Brasil
+
+        // Adiciona o mapa do OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Marca a posição inicial
+        var marker = L.marker([-23.55052, -46.633308]).addTo(map);
+
+        // Atualiza a posição e calcula a distância
+        map.on('click', function(e) {
+            var newLatLng = e.latlng;
+            marker.setLatLng(newLatLng);
+
+            var distance = map.distance(marker.getLatLng(), L.latLng(-23.55052, -46.633308)) / 1000; // Distância em km
+            var time = distance * 12; // Supondo 12 minutos por km
+
+            var fee = calculateDeliveryFee(distance, time);
+            document.getElementById('deliveryFee').textContent = fee.toFixed(2);
+            updateTotalCost(fee);
+        });
+
+        // Função para calcular a taxa de entrega
+        function calculateDeliveryFee(distance, time) {
+            const ratePerKm = 2.0; // Taxa por km
+            const ratePerMin = 0.5; // Taxa por minuto
+
+            return (distance * ratePerKm) + (time * ratePerMin);
+        }
+
+        // Atualiza o custo total
+        function updateTotalCost(fee) {
+            const productCost = 69.00;
+            const totalCost = productCost + fee;
+            document.getElementById('totalCost').textContent = totalCost.toFixed(2);
+        }
+    </script>
+</body>
+</html>

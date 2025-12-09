@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Entrega</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+}
+
+label, input {
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+    </style>
+    <script>
+        function calculateDeliveryCost() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const distance = parseFloat(document.getElementById('distance').value);
+    const time = parseFloat(document.getElementById('time').value);
+
+    const ratePerKg = 5; // taxa por kg
+    const ratePerKm = 2; // taxa por km
+    const ratePerHour = 10; // taxa por hora
+
+    const cost = (ratePerKg * weight) + (ratePerKm * distance) + (ratePerHour * time);
+
+    document.getElementById('result').innerText = `Custo Total: R$ ${cost.toFixed(2)}`;
+}
+
+    </script>
+</head>
+<body>
+    <h1>Calculadora de Entrega</h1>
+    <form id="deliveryForm">                                 
+        <label for="weight">Peso (kg):</label>
+        <input type="number" id="weight" required>
+
+        <label for="distance">Distância (km):</label>
+        <input type="number" id="distance" required>
+
+        <label for="time">Tempo (horas):</label>
+        <input type="number" id="time" required>
+
+        <button type="button" onclick="calculateDeliveryCost()">Calcular</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

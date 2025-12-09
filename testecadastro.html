@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular Valor de Entrega</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; }
+    </style>
+</head>
+<body>
+    <h1>Calcular Valor de Entrega</h1>
+    <div id="map"></div>
+    <p>Distância: <span id="distance"></span> km</p>
+    <p>Tempo Estimado: <span id="duration"></span> min</p>
+    <p>Valor Calculado: R$ <span id="cost"></span></p>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script>
+        const map = L.map('map').setView([-23.55052, -46.633308], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        const startPoint = [-23.55052, -46.633308]; // São Paulo
+        const endPoint = [-23.551, -46.634]; // Destino próximo em São Paulo
+
+        L.marker(startPoint).addTo(map).bindPopup('Ponto de Partida').openPopup();
+        L.marker(endPoint).addTo(map).bindPopup('Destino').openPopup();
+
+        L.Routing.control({
+            waypoints: [
+                L.latLng(startPoint),
+                L.latLng(endPoint)
+            ],
+            router: new L.Routing.OSRMv1({
+                serviceUrl: 'https://router.project-osrm.org/route/v1'
+            }),
+            lineOptions: {
+                styles: [{ color: 'blue', opacity: 0.6, weight: 4 }]
+            },
+            createMarker: function() { return null; }
+        }).on('routesfound', function(e) {
+            const route = e.routes[0];
+            const distance = (route.summary.totalDistance / 1000).toFixed(2); // km
+            const duration = (route.summary.totalTime / 60).toFixed(2); // minutos
+            const cost = calculateCost(distance, duration);
+
+            document.getElementById('distance').textContent = distance;
+            document.getElementById('duration').textContent = duration;
+            document.getElementById('cost').textContent = cost.toFixed(2);
+        }).addTo(map);
+
+        function calculateCost(distance, duration) {
+            const ratePerKm = 2.0; // Taxa por km
+            const ratePerMin = 0.5; // Taxa por minuto
+            return (distance * ratePerKm) + (duration * ratePerMin);
+        }
+    </script>
+</body>
+</html>
